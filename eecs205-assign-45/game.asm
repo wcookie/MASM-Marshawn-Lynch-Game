@@ -18,10 +18,19 @@ include lines.inc
 include blit.inc
 include game.inc
 include keys.inc
+include \masm32\include\windows.inc
+include \masm32\include\winmm.inc
+includelib \masm32\lib\winmm.lib 	
 include \masm32\include\masm32.inc
 includelib \masm32\lib\masm32.lib 
+
 	
 .DATA
+
+
+SndPath BYTE "MUSIC.wav",0 
+
+
 lynch2small EECS205BITMAP <118, 111, 255,, offset lynch2small + sizeof lynch2small>
 	BYTE 0beh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh
 	BYTE 07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh,07dh
@@ -1418,6 +1427,7 @@ lynch2small EECS205BITMAP <118, 111, 255,, offset lynch2small + sizeof lynch2sma
 
 GameInit PROC USES ebx ecx esi
 	;get rid of background stuff
+	invoke PlaySound, offset SndPath, 0,SND_ASYNC 
 	rdtsc
 	invoke nseed, eax 
 	mov lynch2small.bTransparent, 01ch  
