@@ -1598,7 +1598,7 @@ drawstuff:
 bradyjump:
 	mov ebx, brady.xPOS
 	cmp brady.xPOS, 0
-	je actuallyreset
+	jle actuallyreset
 	mov ebx, brady.VEL
 	sub ebx, brady.ACCEL
 	mov ecx, ebx
@@ -1671,6 +1671,7 @@ resetbrady:
 	cmp brady.xPOS, 0
 	jge returner
 actuallyreset:
+	mov brady.jmpState, 0
 	mov brady.xPOS,599
 	mov esi, brady.bmp
 	;getting the right
@@ -1730,6 +1731,7 @@ randomstuff:
 
 	;now he is staying at 350
 resetheight:
+
 	mov brady.up, 0
 	mov brady.yPOS, 350
 	mov esi, brady.bmp
