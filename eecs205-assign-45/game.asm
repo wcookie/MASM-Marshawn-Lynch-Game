@@ -18,6 +18,8 @@ include lines.inc
 include blit.inc
 include game.inc
 include keys.inc
+include \masm32\include\masm32.inc
+includelib \masm32\lib\masm32.lib 
 	
 .DATA
 lynch2small EECS205BITMAP <118, 111, 255,, offset lynch2small + sizeof lynch2small>
@@ -1416,7 +1418,8 @@ lynch2small EECS205BITMAP <118, 111, 255,, offset lynch2small + sizeof lynch2sma
 
 GameInit PROC USES ebx ecx esi
 	;get rid of background stuff
-
+	rdtsc
+	invoke nseed, eax 
 	mov lynch2small.bTransparent, 01ch  
 	mov brady2small.bTransparent, 01ch  
 	;set lynch xpos ypos and bmp
@@ -1434,6 +1437,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady.VEL, 0
 	mov brady.xVEL, 11
 	mov brady.ACCEL, -3
+	mov brady.up, 0
 
 	;MARSHAWN LYNCH
 	mov esi,  lynch.bmp
@@ -1496,6 +1500,7 @@ GameInit ENDP
 
 GamePlay PROC USES ebx ecx edx esi
 	INVOKE BlackStarField
+
 	mov ecx, KeyPress
 	cmp ecx, 20h
 	jne afterkeys
@@ -1572,30 +1577,60 @@ drawstuff:
 	mov ebx, (MouseInfo PTR [ecx]).buttons
 	cmp ebx, MK_LBUTTON
 	jne actuallydraw
+	xor ebx, ebx
+	mov bl, brady.up
+	cmp bl, 1
+	jne actuallydraw
 	mov brady.jmpState, 1
 	mov brady.VEL, 40
 
 ;this part is if we know brady is supposed to be jumping
 bradyjump:
 	mov ebx, brady.VEL
-	add ebx, brady.ACCEL
+	sub ebx, brady.ACCEL
 	mov ecx, ebx
 	mov brady.VEL, ebx
 	mov edx, brady.yPOS
-	sub edx, ebx
+	add edx, ebx
 	mov brady.yPOS, edx
 	;basically adding acceleration to velocity every time then "subtracting" (bc of way screen is made up) to the position
 	mov edx, bradyrect.dwTop
-	sub edx, ecx
+	add edx, ecx
 	;this part is for the rectangles
 	mov bradyrect.dwTop, edx
 	mov edx, bradyrect.dwBottom
-	sub edx, ecx
+	add edx, ecx
 	mov bradyrect.dwBottom, edx
-	cmp brady.yPOS, 350
-	jle actuallydraw	
-	mov brady.yPOS, 350
+	cmp brady.yPOS, 250
+	jle actuallydraw
+
+	mov brady.yPOS, 250
 	mov brady.jmpState, 0
+	mov esi, brady.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	sub ecx, brady.yPOS
+	mov bradyrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, brady.yPOS
+	add ecx, ebx
+	mov bradyrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	sub ecx, brady.xPOS
+	mov bradyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, brady.xPOS
+	add ecx, ebx
+	mov bradyrect.dwLeft, ecx
 
 
 actuallydraw:
@@ -1635,6 +1670,81 @@ resetbrady:
 	mov ecx, brady.xPOS
 	sub ecx, ebx
 	mov bradyrect.dwLeft, ecx
+
+	;MAKING BRADY FASTER EACH TIME THROUGH
+	mov edx, brady.xVEL
+	inc edx
+	mov brady.xVEL, edx
+
+	;deciding when to make brady go to the top
+	invoke nrandom, 4
+	cmp eax, 1
+	jne resetheight
+	mov brady.yPOS, 250
+	mov brady.up, 1
+	mov esi, brady.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, brady.yPOS
+	mov bradyrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, brady.yPOS
+	sub ecx, ebx
+	mov bradyrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, brady.xPOS
+	mov bradyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, brady.xPOS
+	sub ecx, ebx
+	mov bradyrect.dwLeft, ecx
+
+	jmp returner
+
+	;now he is staying at 350
+resetheight:
+	mov brady.up, 0
+	mov brady.yPOS, 350
+	mov esi, brady.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, brady.yPOS
+	mov bradyrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, brady.yPOS
+	sub ecx, ebx
+	mov bradyrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, brady.xPOS
+	mov bradyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, brady.xPOS
+	sub ecx, ebx
+	mov bradyrect.dwLeft, ecx
+
+
+	;consider  making lynch jmp up and down faster
+	;mov edx, lynch.ACCEL
+	;dec edx
+	;mov lynch.ACCEL, edx
 
 	
 

@@ -28,6 +28,7 @@ SPRITE STRUCT
 	bmp  DWORD ?
 	rect DWORD ?
 	jmpState BYTE ?
+	up BYTE ?
 
 SPRITE ENDS
 ;; Library Functions
