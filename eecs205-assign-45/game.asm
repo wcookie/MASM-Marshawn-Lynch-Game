@@ -163,6 +163,7 @@ GamePlay PROC USES ebx ecx edx esi
 	cmp pauseFLAG, 0
 	jne unpause
 	mov pauseFLAG, 1
+	INVOKE DrawStr, OFFSET pausestuff, 100, 100, 255
 	jmp returner
 
 unpause:
