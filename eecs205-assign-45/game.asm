@@ -1427,7 +1427,7 @@ lynch2small EECS205BITMAP <118, 111, 255,, offset lynch2small + sizeof lynch2sma
 
 GameInit PROC USES ebx ecx esi
 	;get rid of background stuff
-	invoke PlaySound, offset SndPath, 0,SND_ASYNC 
+	invoke PlaySound, offset SndPath, 0, SND_ASYNC 
 	rdtsc
 	invoke nseed, eax 
 	mov lynch2small.bTransparent, 01ch  
@@ -1596,6 +1596,9 @@ drawstuff:
 
 ;this part is if we know brady is supposed to be jumping
 bradyjump:
+	mov ebx, brady.xPOS
+	cmp brady.xPOS, 0
+	je actuallyreset
 	mov ebx, brady.VEL
 	sub ebx, brady.ACCEL
 	mov ecx, ebx
@@ -1667,6 +1670,7 @@ drawsprites:
 resetbrady:
 	cmp brady.xPOS, 0
 	jge returner
+actuallyreset:
 	mov brady.xPOS,599
 	mov esi, brady.bmp
 	;getting the right
@@ -1682,10 +1686,14 @@ resetbrady:
 	mov bradyrect.dwLeft, ecx
 
 	;MAKING BRADY FASTER EACH TIME THROUGH
+	; need to make sure that he has a top speed of 22 (might keep this changing)
 	mov edx, brady.xVEL
+	cmp edx, 22
+	je randomstuff
 	inc edx
 	mov brady.xVEL, edx
 
+randomstuff:
 	;deciding when to make brady go to the top
 	invoke nrandom, 2
 	cmp eax, 1
