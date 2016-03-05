@@ -1432,6 +1432,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady.yPOS, 350
 	mov brady.bmp, OFFSET brady2small
 	mov brady.VEL, 0
+	mov brady.xVEL, 11
 	mov brady.ACCEL, -3
 
 	;MARSHAWN LYNCH
@@ -1599,13 +1600,14 @@ bradyjump:
 
 actuallydraw:
 	mov ebx, brady.xPOS
-	sub ebx, 11
+	mov ecx, brady.xVEL
+	sub ebx, ecx
 	mov brady.xPOS, ebx
 	mov ebx, bradyrect.dwLeft
-	sub ebx, 11
+	sub ebx, ecx
 	mov bradyrect.dwLeft, ebx
 	mov ebx, bradyrect.dwRight
-	sub ebx, 11
+	sub ebx, ecx
 	mov bradyrect.dwRight, ebx
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET bradyrect
 	cmp eax, 1
