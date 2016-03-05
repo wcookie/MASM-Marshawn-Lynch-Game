@@ -1436,7 +1436,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady.bmp, OFFSET brady2small
 	mov brady.VEL, 0
 	mov brady.xVEL, 11
-	mov brady.ACCEL, -3
+	mov brady.ACCEL, 3
 	mov brady.up, 0
 
 	;MARSHAWN LYNCH
@@ -1602,7 +1602,7 @@ bradyjump:
 	add edx, ecx
 	mov bradyrect.dwBottom, edx
 	cmp brady.yPOS, 250
-	jle actuallydraw
+	jge actuallydraw
 
 	mov brady.yPOS, 250
 	mov brady.jmpState, 0
@@ -1677,9 +1677,9 @@ resetbrady:
 	mov brady.xVEL, edx
 
 	;deciding when to make brady go to the top
-	invoke nrandom, 4
+	invoke nrandom, 2
 	cmp eax, 1
-	jne resetheight
+	je resetheight
 	mov brady.yPOS, 250
 	mov brady.up, 1
 	mov esi, brady.bmp
