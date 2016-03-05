@@ -1687,9 +1687,9 @@ actuallyreset:
 	mov bradyrect.dwLeft, ecx
 
 	;MAKING BRADY FASTER EACH TIME THROUGH
-	; need to make sure that he has a top speed of 22 (might keep this changing)
+	; need to make sure that he has a top speed of 23 (might keep this changing)
 	mov edx, brady.xVEL
-	cmp edx, 22
+	cmp edx, 23
 	je randomstuff
 	inc edx
 	mov brady.xVEL, edx
