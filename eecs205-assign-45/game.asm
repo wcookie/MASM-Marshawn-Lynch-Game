@@ -42,6 +42,9 @@ include brady.asm
  mouseclick BYTE "CLICK"
  bradyrect EECS205RECT <>
   spacer BYTE "SPACE"
+pauseFLAG BYTE ?
+pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
+extraspace BYTE '0'
 ;; If you need to, you can place global variables here
 
 
@@ -54,12 +57,24 @@ include brady.asm
 .CODE
 
 GameInit PROC USES ebx ecx esi
-	;get rid of background stuff
+	
+
+	;playing music
 	invoke PlaySound, offset SndPath, 0, SND_ASYNC 
+
+	;setting up randomstuff
 	rdtsc
 	invoke nseed, eax 
+
+
+	;setting up pause stuff
+	mov pauseFLAG, 0
+
+	;get rid of background stuff
 	mov lynch2small.bTransparent, 01ch  
 	mov brady2small.bTransparent, 01ch  
+
+
 	;set lynch xpos ypos and bmp
 	mov lynch.xPOS, 300  ;lynch position
 	mov lynch.yPOS, 350
@@ -137,8 +152,29 @@ GameInit ENDP
 
 
 GamePlay PROC USES ebx ecx edx esi
+	
+	
+
+	; if p is pressed unpause it otherwise jump to pause it
+	mov ecx, KeyPress
+	cmp ecx, 50h
+	jne afterpause
+	;so it was pressed now time to do pauseFLAG stuff
+	cmp pauseFLAG, 0
+	jne unpause
+	mov pauseFLAG, 1
+	jmp returner
+
+unpause:
+	mov pauseFLAG, 0
+
+afterpause:
+	;make sure it's not paused
+	cmp pauseFLAG, 1
+	je returner
 	INVOKE BlackStarField
 
+	;space bar check
 	mov ecx, KeyPress
 	cmp ecx, 20h
 	jne afterkeys
@@ -165,7 +201,7 @@ afterkeys:
 	sub edx, ebx
 	mov lynch.yPOS, edx
 
-	
+	;rect stuff
 	mov edx, lynchrect.dwTop
 	sub edx, ecx
 	mov lynchrect.dwTop, edx
