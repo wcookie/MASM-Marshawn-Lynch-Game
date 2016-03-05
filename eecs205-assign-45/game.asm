@@ -1533,6 +1533,32 @@ afterkeys:
 	mov lynch.yPOS, 350
 	;ADD STUFF FOR DWTOP HERE AS WELL
 	mov lynch.jmpState,0
+	;MARSHAWN LYNCH
+	mov esi,  lynch.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, lynch.yPOS
+	mov lynchrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, lynch.yPOS
+	sub ecx, ebx
+	mov lynchrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, lynch.xPOS
+	mov lynchrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, lynch.xPOS
+	sub ecx, ebx
+	mov lynchrect.dwLeft, ecx
 
 
 
