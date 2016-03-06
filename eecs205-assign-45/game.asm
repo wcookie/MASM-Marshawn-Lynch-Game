@@ -34,14 +34,15 @@ include lynch.asm
 include brady.asm
 include tall_bill.asm
 
- billy SPRITE <>
- lynch SPRITE <>
- brady SPRITE <>
- stringer BYTE "Collision"
- lynchrect EECS205RECT <>
- mouseclick BYTE "CLICK"
- bradyrect EECS205RECT <>
-  spacer BYTE "SPACE"
+billy SPRITE <>
+lynch SPRITE <>
+brady SPRITE <>
+stringer BYTE "Collision"
+lynchrect EECS205RECT <>
+mouseclick BYTE "CLICK"
+bradyrect EECS205RECT <>
+spacer BYTE "SPACE"
+billyrect EECS205RECT <>
 pauseFLAG BYTE ?
 pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
 extraspace BYTE ?
@@ -154,6 +155,34 @@ GameInit PROC USES ebx ecx esi
 	mov ecx, brady.xPOS
 	sub ecx, ebx
 	mov bradyrect.dwLeft, ecx
+
+	;billy boy
+	mov esi,  billy.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, billy.yPOS
+	mov billyrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, billy.yPOS
+	sub ecx, ebx
+	mov billyrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, billy.xPOS
+	mov billyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, billy.xPOS
+	sub ecx, ebx
+	mov billyrect.dwLeft, ecx
+
 
 	
 	ret         ;; Do not delete this line!!!
@@ -321,16 +350,34 @@ bradyjump:
 
 
 actuallydraw:
+
+	;mov brady to thel eft and his rectangle with him
 	mov ebx, brady.xPOS
 	mov ecx, brady.xVEL
 	sub ebx, ecx
 	mov brady.xPOS, ebx
+	;the rectangle stuff
 	mov ebx, bradyrect.dwLeft
 	sub ebx, ecx
 	mov bradyrect.dwLeft, ebx
 	mov ebx, bradyrect.dwRight
 	sub ebx, ecx
 	mov bradyrect.dwRight, ebx
+
+	;doing the same with billy boy
+	mov ebx, billy.xPOS
+	mov ecx, billy.xVEL
+	add ebx, ecx
+	mov billy.xPOS, ebx
+	;rectangle stuff
+	mov ebx, billyrect.dwLeft
+	add ebx, ecx
+	mov billyrect.dwLeft, ebx
+	mov ebx, billyrect.dwRight
+	add ebx, ecx
+	mov billyrect.dwRight, ebx
+
+
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET bradyrect
 	cmp eax, 1
 	jne drawsprites
