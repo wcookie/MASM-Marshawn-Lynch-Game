@@ -96,7 +96,7 @@ GameInit PROC USES ebx ecx esi
 	mov billy.xPOS, -20
 	mov billy.yPOS, 300
 	mov billy.bmp, OFFSET tall_bill
-	mov billy.xVEL, 10
+	mov billy.xVEL, 2
 	mov billy.dead, 1
 
 
