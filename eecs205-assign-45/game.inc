@@ -29,6 +29,7 @@ SPRITE STRUCT
 	rect DWORD ?
 	jmpState BYTE ?
 	up BYTE ?
+	dead BYTE ?
 
 SPRITE ENDS
 ;; Library Functions

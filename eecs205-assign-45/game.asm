@@ -32,9 +32,9 @@ SndPath BYTE "MUSIC.wav",0
 
 include lynch.asm
 include brady.asm
+include tall_bill.asm
 
-
-
+ billy SPRITE <>
  lynch SPRITE <>
  brady SPRITE <>
  stringer BYTE "Collision"
@@ -44,7 +44,8 @@ include brady.asm
   spacer BYTE "SPACE"
 pauseFLAG BYTE ?
 pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
-extraspace BYTE '0'
+extraspace BYTE ?
+stuff_here BYTE '0'
 ;; If you need to, you can place global variables here
 
 
@@ -91,6 +92,14 @@ GameInit PROC USES ebx ecx esi
 	mov brady.xVEL, 11
 	mov brady.ACCEL, 3
 	mov brady.up, 0
+	;set up billy bill
+	mov billy.xPOS, -20
+	mov billy.yPOS, 300
+	mov billy.bmp, OFFSET tall_bill
+	mov billy.xVEL, 10
+	mov billy.dead, 1
+
+
 
 	;MARSHAWN LYNCH
 	mov esi,  lynch.bmp
@@ -153,7 +162,7 @@ GameInit ENDP
 
 GamePlay PROC USES ebx ecx edx esi
 	
-	
+
 
 	; if p is pressed unpause it otherwise jump to pause it
 	mov ecx, KeyPress
@@ -328,6 +337,7 @@ actuallydraw:
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 
 drawsprites:
+	INVOKE BasicBlit, billy.bmp, billy.xPOS, billy.yPOS
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
 
