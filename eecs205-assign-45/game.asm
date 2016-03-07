@@ -34,6 +34,7 @@ include lynch.asm
 include brady.asm
 include tall_bill.asm
 include small_roger.asm
+include secondmarshawn.asm
 
 billy SPRITE <>
 lynch SPRITE <>
@@ -453,7 +454,8 @@ checkbilly:
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET billyrect
 	cmp eax, 1
 	jne drawsprites
-	INVOKE DrawStr, OFFSET stringer, 100, 200, 255
+	;change marshawn as test
+	mov lynch.bmp, OFFSET secondmarshawn
 
 drawsprites:
 	INVOKE BasicBlit, roger.bmp, 100, 100
