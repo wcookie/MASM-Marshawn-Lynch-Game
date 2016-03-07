@@ -54,6 +54,7 @@ pauseFLAG BYTE ?
 pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
 extraspace BYTE ?
 stuff_here BYTE '0'
+powerupFLAG BYTE ?
 ;; If you need to, you can place global variables here
 
 
@@ -78,6 +79,9 @@ GameInit PROC USES ebx ecx esi
 
 	;setting up pause stuff
 	mov pauseFLAG, 0
+
+	;setting up powerup flag  
+	mov powerupFLAG, 0
 
 	;get rid of background stuff
 	mov lynch2small.bTransparent, 01ch  
