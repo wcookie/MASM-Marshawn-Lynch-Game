@@ -690,14 +690,35 @@ checkbrady:
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 
 checkbilly:
+
+	;basically saying that billy has collided with beast mode
 	mov bl, billy.dead
 	cmp bl, 1
-	je drawsprites
+	je checkskittlesbag
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET billyrect
 	cmp eax, 1
+	jne checkskittlesbag
+	;change marshawn as test.  later change to GAMEOVER MODE
+	;mov lynch.bmp, OFFSET secondmarshawn
+	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
+	;now nothing happens until i implement game over mode.
+
+
+checkskittlesbag:
+	;checking if skittlesbag has collided with beast mode.
+
+	;if skittlesbag has collided with beast mode then not only is skittlesbag now dead, beast mode is now in powerup mode AND he 
+	;gets the funny looking sprite
+	mov bl, skittlesbag.dead
+	cmp bl, 1
+	je drawsprites
+
+	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET skittlesbagrect
+	cmp eax, 1
 	jne drawsprites
-	;change marshawn as test
 	mov lynch.bmp, OFFSET secondmarshawn
+	mov powerupFLAG, 1
+	
 
 drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
