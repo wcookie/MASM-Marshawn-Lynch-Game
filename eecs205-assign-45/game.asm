@@ -59,6 +59,8 @@ pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
 extraspace BYTE ?
 stuff_here BYTE '0'
 powerupFLAG BYTE ?
+numSkittles BYTE ?
+shootingFLAG BYTE ?
 ;; If you need to, you can place global variables here
 
 
@@ -84,8 +86,10 @@ GameInit PROC USES ebx ecx esi
 	;setting up pause stuff
 	mov pauseFLAG, 0
 
-	;setting up powerup flag  
+	;setting up powerup flag   and other powerup stuff
 	mov powerupFLAG, 0
+	mov numSkittles, 0
+	mov shootingFLAG, 0
 
 	;get rid of background stuff
 	mov lynch2small.bTransparent, 01ch  
@@ -476,14 +480,26 @@ checkspacebar:
 	;space bar check
 	mov ecx, KeyPress
 	cmp ecx, 20h
-	jne afterkeys
+	jne checkfkey
 	cmp lynch.jmpState, 0
-	jne afterkeys
+	jne checkfkey
 	mov lynch.jmpState, 1
 	mov lynch.VEL, 40
 
 	INVOKE DrawStr, OFFSET spacer, 250, 100, 255
 
+
+checkfkey:
+
+	;this is for the f key.  if this is the case, then we are doing the whole firing skittles thing.
+	cmp powerupFLAG, 0
+	;basically if there is a powerup flag then we can shoot things.
+	je afterkeys
+	mov ecx, KeyPress
+	cmp ecx, 46h
+	jne afterkeys
+	mov shootingFLAG, 1
+	dec numSkittles
 
 
 
