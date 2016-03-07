@@ -300,8 +300,8 @@ createbilly:
 	cmp bl, 1
 	jne createskittlesbag
 	;now we know billy is dead if we're here.  time to reincarnate him if he is randomly lucky
-	;now we are saying 1 in 400 chance but that is something to play with later
-	invoke nrandom, 400
+	;now we are saying 1 in 350 chance but that is something to play with later
+	invoke nrandom, 350
 	cmp eax, 1
 	jne createskittlesbag
 	;he's a live
@@ -377,7 +377,6 @@ initializeskittlesbag:
 
 	;now gotta reset that rectangle tho 
 
-		;billy boy
 	mov esi,  skittlesbag.bmp
 
 	;getting the top
@@ -408,7 +407,58 @@ initializeskittlesbag:
 
 createroger:
 	
-	;creating the roger fine
+	;creating the roger 
+
+	;if roger is lready alive go on
+	mov bl, roger.dead
+	cmp bl, 1
+	jne checkspacebar 
+	;same with if skittlesbag is alive, only one powerup or fine at a time, otherwise chaos could ensue
+
+	mov bl, skittlesbag.dead
+	cmp bl, 1
+	jne checkspacebar
+
+
+	;now both are dead.  1 in 450 (??) chance of rog mahal spawning
+	invoke nrandom, 450
+	cmp eax, 1
+	jne checkspacebar
+
+
+	;now we want to spawn him
+
+	mov roger.dead, 0
+	mov roger.xPOS, 599
+	mov roger.yPOS, 300
+
+	;now gotta reset that rectangle tho 
+
+	mov esi,  roger.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, roger.yPOS
+	mov rogerrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, roger.yPOS
+	sub ecx, ebx
+	mov rogerrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, roger.xPOS
+	mov rogerrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, roger.xPOS
+	sub ecx, ebx
+	mov rogerrect.dwLeft, ecx
 
 
 
