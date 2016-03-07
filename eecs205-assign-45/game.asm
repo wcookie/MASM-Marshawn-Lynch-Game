@@ -504,7 +504,7 @@ checkfkey:
 	mov ecx, KeyPress
 	cmp ecx, 46h
 	jne afterkeys
-	mov powerupFLAG, 1
+	mov shootingFLAG, 1
 
 
 
@@ -716,7 +716,6 @@ powerupinitialize:
 
 	;this is the start of a shooting
 	;setting up flags
-	mov shootingFLAG, 1
 	dec numSkittles
 	;now need to initialize skittles position
 
@@ -760,7 +759,18 @@ powerupinitialize:
 
 
 powerupmove:
-		
+	
+	;just move the skittle
+	mov ebx, skittle.xPOS
+	mov ecx, skittle.xVEL
+	sub ebx, ecx
+	mov skittle.xPOS, ebx
+	mov ebx, skittlerect.dwLeft
+	sub ebx, ecx
+	mov skittlerect.dwLeft, ebx
+	mov ebx, skittlerect.dwRight
+	sub ebx, ecx
+	mov skittlerect.dwRight, ebx
 
 
 
@@ -807,6 +817,7 @@ drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
+	INVOKE BasicBlit, skittle.bmp, skittle.xPOS, skittle.yPOS
 	mov bl, billy.dead
 	cmp bl, 1
 	je checkroger
