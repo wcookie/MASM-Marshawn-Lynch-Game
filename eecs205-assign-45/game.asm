@@ -617,9 +617,11 @@ actuallydraw:
 	mov bradyrect.dwRight, ebx
 
 	;doing the same with billy boy
+
+	;if billy is dead dont move him
 	mov bl, billy.dead
 	cmp bl, 1
-	je checkbrady
+	je moveroger
 	mov ebx, billy.xPOS
 	mov ecx, billy.xVEL
 	add ebx, ecx
@@ -631,6 +633,49 @@ actuallydraw:
 	mov ebx, billyrect.dwRight
 	add ebx, ecx
 	mov billyrect.dwRight, ebx
+
+moveroger:
+
+	;gotta move roger if hes not dead
+	mov bl, roger.dead
+	cmp bl, 1
+	je moveskittlesbag
+
+	;now we know rog is not dead
+	mov ebx, roger.xPOS
+	mov ecx, roger.xVEL
+	sub ebx, ecx
+	mov roger.xPOS, ebx
+	mov ebx, rogerrect.dwLeft
+	sub ebx, ecx
+	mov rogerrect.dwLeft, ebx
+	mov ebx, rogerrect.dwRight
+	sub ebx, ecx
+	mov rogerrect.dwRight, ebx
+
+	;we know that if roger is alive then skittlesbag is dead so we can save the computational check of seeing if skittlesbag is alive
+	jmp checkbrady
+
+moveskittlesbag:
+	
+	;moving skittles bag if skittles bag aint dead
+
+	mov bl, skittlesbag.dead
+	cmp bl, 1
+	je checkbrady
+
+	;now we know that skittlesbag is alive and well
+	mov ebx, skittlesbag.xPOS
+	mov ecx, skittlesbag.xVEL
+	sub ebx, ecx
+	mov skittlesbag.xPOS, ebx
+	mov ebx, skittlesbagrect.dwLeft
+	sub ebx, ecx
+	mov skittlesbagrect.dwLeft, ebx
+	mov ebx, skittlesbagrect.dwRight
+	sub ebx, ecx
+	mov skittlesbagrect.dwRight, ebx
+	
 
 
 checkbrady:
