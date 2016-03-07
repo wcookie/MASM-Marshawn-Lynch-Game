@@ -727,8 +727,40 @@ powerupinitialize:
 	mov skittle.yPOS, ebx
 
 	;now we wanna initiliaze rectangle.
+	;skittle
+	mov esi,  skittle.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, skittle.yPOS
+	mov skittlerect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, skittle.yPOS
+	sub ecx, ebx
+	mov skittlerect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, skittle.xPOS
+	mov skittlerect.dwRight, ecx
+
+	;getting the left
+	mov ecx, skittle.xPOS
+	sub ecx, ebx
+	mov skittlerect.dwLeft, ecx
+
+	;now we have initialized we dont want to move first time through so well jump away
+	jmp checkbrady
+
+
+
 powerupmove:
-	
+		
 
 
 
