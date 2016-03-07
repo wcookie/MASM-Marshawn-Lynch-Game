@@ -675,7 +675,7 @@ moveskittlesbag:
 	mov ebx, skittlesbagrect.dwRight
 	sub ebx, ecx
 	mov skittlesbagrect.dwRight, ebx
-	
+
 
 
 checkbrady:
@@ -716,7 +716,7 @@ checkbag:
 
 resetbrady:
 	cmp brady.xPOS, 0
-	jge returner
+	jge resetroger
 actuallyreset:
 	mov brady.jmpState, 0
 	mov brady.xPOS,599
@@ -809,8 +809,23 @@ resetheight:
 
 
 
+resetroger:
+	;basically if roger is off the screen make him dead again
+	cmp roger.xPOS, 0
+	jge resetskittlesbag
+	mov roger.dead, 1
 
-	
+resetskittlesbag:
+	;same thing but with skittlesbag
+	cmp skittlesbag.xPOS, 0
+	jge resetbilly
+	mov skittlesbag.dead, 1
+
+resetbilly:
+	;with bily instead of checking with 0 we check with 599 (FOPR NOW, later we will do when he is shot)
+	cmp billy.xPOS, 599
+	jle returner
+	mov billy.dead, 1
 
 returner:
 	ret         ;; Do not delete this line!!!
