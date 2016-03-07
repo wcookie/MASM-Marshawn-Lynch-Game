@@ -140,6 +140,8 @@ GameInit PROC USES ebx ecx esi
 	;firing xVEL is 14.
 	mov skittle.xVEL, 14
 	mov skittle.bmp, OFFSET skittlebmp 
+	mov skittle.VEL, 0
+	mov skittle.ACCEL, -3
 
 
 	;MARSHAWN LYNCH
@@ -505,6 +507,7 @@ checkfkey:
 	cmp ecx, 46h
 	jne afterkeys
 	mov shootingFLAG, 1
+	mov skittle.VEL, 30
 
 
 
@@ -765,12 +768,42 @@ powerupmove:
 	mov ecx, skittle.xVEL
 	sub ebx, ecx
 	mov skittle.xPOS, ebx
-	mov ebx, skittlerect.dwLeft
-	sub ebx, ecx
-	mov skittlerect.dwLeft, ebx
-	mov ebx, skittlerect.dwRight
-	sub ebx, ecx
-	mov skittlerect.dwRight, ebx
+	;dealing with the jumpy part
+
+	mov ebx, skittle.VEL
+	add ebx, skittle.ACCEL
+	mov ecx, ebx
+	mov skittle.VEL, ebx
+	mov edx, skittle.yPOS
+	sub edx, ebx
+	mov skittle.yPOS, edx
+
+		;skittle
+	mov esi,  skittle.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, skittle.yPOS
+	mov skittlerect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, skittle.yPOS
+	sub ecx, ebx
+	mov skittlerect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, skittle.xPOS
+	mov skittlerect.dwRight, ecx
+
+	;getting the left
+	mov ecx, skittle.xPOS
+	sub ecx, ebx
+	mov skittlerect.dwLeft, ecx
 
 
 
