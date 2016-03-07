@@ -33,10 +33,13 @@ SndPath BYTE "MUSIC.wav",0
 include lynch.asm
 include brady.asm
 include tall_bill.asm
+include small_roger.asm
 
 billy SPRITE <>
 lynch SPRITE <>
 brady SPRITE <>
+roger SPRITE <>
+rogerrect EECS205RECT<>
 stringer BYTE "Collision"
 lynchrect EECS205RECT <>
 mouseclick BYTE "CLICK"
@@ -99,6 +102,13 @@ GameInit PROC USES ebx ecx esi
 	mov billy.bmp, OFFSET tall_bill
 	mov billy.xVEL, 2
 	mov billy.dead, 1
+
+	;set up roger
+	mov roger.dead, 1
+	mov roger.xVEL, 10
+	mov roger.ACCEL, -3
+	mov roger.bmp, OFFSET small_roger
+	mov roger.VEL, 0
 
 
 
@@ -446,6 +456,7 @@ checkbilly:
 	INVOKE DrawStr, OFFSET stringer, 100, 200, 255
 
 drawsprites:
+	INVOKE BasicBlit, roger.bmp, 100, 100
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
 	mov bl, billy.dead
