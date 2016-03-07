@@ -35,7 +35,10 @@ include brady.asm
 include tall_bill.asm
 include small_roger.asm
 include secondmarshawn.asm
+include skittlesbag.asm
 
+skittlesbag SPRITE <>
+skittlesbagrect EECS205RECT<>
 billy SPRITE <>
 lynch SPRITE <>
 brady SPRITE <>
@@ -88,6 +91,7 @@ GameInit PROC USES ebx ecx esi
 	;dealing with "gravity"
 	mov lynch.VEL, 0
 	mov lynch.ACCEL, -3
+
 	;set brady xpos ypos and bmp
 	;dealing with "gravity"
 	mov brady.xPOS, 599
@@ -97,6 +101,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady.xVEL, 11
 	mov brady.ACCEL, 3
 	mov brady.up, 0
+
 	;set up billy bill
 	mov billy.xPOS, -20
 	mov billy.yPOS, 300
@@ -107,11 +112,17 @@ GameInit PROC USES ebx ecx esi
 	;set up roger
 	mov roger.dead, 1
 	mov roger.xVEL, 10
-	mov roger.ACCEL, -3
 	mov roger.bmp, OFFSET small_roger
 	mov roger.VEL, 0
+	mov roger.xPOS, 599
+	mov roger.yPOS, 300
 
-
+	;set up skittles bag power UP
+	mov skittlesbag.dead, 1
+	mov skittlesbag.xVEL, 10
+	mov skittlesbag.bmp, OFFSET skittlesbagbmp
+	mov skittlesbag.xPOS, 599
+	mov skittlesbag.yPOS, 300
 
 	;MARSHAWN LYNCH
 	mov esi,  lynch.bmp
@@ -193,6 +204,64 @@ GameInit PROC USES ebx ecx esi
 	mov ecx, billy.xPOS
 	sub ecx, ebx
 	mov billyrect.dwLeft, ecx
+
+
+
+	;rog mahal
+	mov esi,  roger.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, roger.yPOS
+	mov rogerrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, roger.yPOS
+	sub ecx, ebx
+	mov rogerrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, roger.xPOS
+	mov rogerrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, roger.xPOS
+	sub ecx, ebx
+	mov rogerrect.dwLeft, ecx
+
+	;skittlesbag
+	mov esi,  skittlesbag.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, skittlesbag.yPOS
+	mov skittlesbagrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, skittlesbag.yPOS
+	sub ecx, ebx
+	mov skittlesbagrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, skittlesbag.xPOS
+	mov skittlesbagrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, skittlesbag.xPOS
+	sub ecx, ebx
+	mov skittlesbagrect.dwLeft, ecx
+
+
 
 
 	
@@ -458,14 +527,23 @@ checkbilly:
 	mov lynch.bmp, OFFSET secondmarshawn
 
 drawsprites:
-	INVOKE BasicBlit, roger.bmp, 100, 100
+	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
 	mov bl, billy.dead
 	cmp bl, 1
-	je resetbrady
+	je checkroger
 	INVOKE BasicBlit, billy.bmp, billy.xPOS, billy.yPOS
-
+checkroger:
+	mov bl, roger.dead
+	cmp bl, 1
+	je checkbag
+	INVOKE BasicBlit, roger.bmp, roger.xPOS, roger.yPOS
+checkbag:
+	mov bl, skittlesbag.dead
+	cmp bl, 1
+	je resetbrady
+	INVOKE BasicBlit, skittlesbag.bmp, skittlesbag.xPOS, skittlesbag.yPOS
 
 resetbrady:
 	cmp brady.xPOS, 0
