@@ -293,17 +293,17 @@ afterpause:
 	je returner
 	INVOKE BlackStarField
 
-
+createbilly:
 	;create a new billy bill
 	;but need to make sure he's dead before re recreate him
 	mov bl, billy.dead
 	cmp bl, 1
-	jne checkspacebar
+	jne createskittlesbag
 	;now we know billy is dead if we're here.  time to reincarnate him if he is randomly lucky
-	;now we are saying 1 in 300 chance but that is something to play with later
-	invoke nrandom, 300
+	;now we are saying 1 in 400 chance but that is something to play with later
+	invoke nrandom, 400
 	cmp eax, 1
-	jne checkspacebar
+	jne createskittlesbag
 	;he's a live
 	mov billy.dead, 0
 	;set him back towards the left
@@ -337,6 +337,80 @@ afterpause:
 	mov ecx, billy.xPOS
 	sub ecx, ebx
 	mov billyrect.dwLeft, ecx
+
+
+createskittlesbag:
+
+	;creating new skittles bag powerup
+	;if there is already a skittlesbag jmp to create roger
+	mov bl, skittlesbag.dead
+	cmp bl, 1
+	jne createroger
+	;however, we also only want skittlesbag if there also isnt a roger out there
+	mov bl, roger.dead
+	cmp bl, 1
+	jne createroger
+	;so now we know there is no fine or powerup in existence and we can try and make a skittlesbag
+
+	; we are making the chances of getting a skittlesbag much higher if billy is alive, just for funsies
+
+	mov bl, billy.dead
+	cmp bl, 1
+	je deadrandom
+
+	;so basically if billy is alive make it 1 in 100 chance otherwise make it 1 in 250 chance
+	invoke nrandom, 100
+	cmp eax, 1
+	je initializeskittlesbag
+	jmp createroger
+deadrandom:
+	;doing 1 in 250 chance if billy is dead.  might need to be looked at later.  
+	invoke nrandom, 250
+	cmp eax, 1
+	jne createroger
+
+	;if we got here, we know we are tryna make a skittlesbag
+initializeskittlesbag:
+	mov skittlesbag.dead, 0
+	mov skittlesbag.xPOS, 599
+	mov skittlesbag.yPOS, 300
+
+	;now gotta reset that rectangle tho 
+
+		;billy boy
+	mov esi,  skittlesbag.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, skittlesbag.yPOS
+	mov skittlesbagrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, skittlesbag.yPOS
+	sub ecx, ebx
+	mov skittlesbagrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, skittlesbag.xPOS
+	mov skittlesbagrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, skittlesbag.xPOS
+	sub ecx, ebx
+	mov skittlesbagrect.dwLeft, ecx
+
+
+
+createroger:
+	
+	;creating the roger fine
+
+
 
 
 
