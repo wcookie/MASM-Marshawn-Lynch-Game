@@ -718,8 +718,15 @@ powerupinitialize:
 	;setting up flags
 	mov shootingFLAG, 1
 	dec numSkittles
-	;now need to initialize rectangle
+	;now need to initialize skittles position
 
+	;using lynchrect dwleft so that we can start the position off of the left of lynchs rectangle
+	mov ebx, lynchrect.dwLeft
+	mov skittle.xPOS, ebx
+	mov ebx, lynch.yPOS
+	mov skittle.yPOS, ebx
+
+	;now we wanna initiliaze rectangle.
 powerupmove:
 	
 
