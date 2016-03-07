@@ -507,7 +507,7 @@ checkfkey:
 	cmp ecx, 46h
 	jne afterkeys
 	mov shootingFLAG, 1
-	mov skittle.VEL, 30
+	mov skittle.VEL, 25
 
 
 
