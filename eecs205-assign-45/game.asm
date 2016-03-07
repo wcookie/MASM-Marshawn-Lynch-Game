@@ -136,6 +136,12 @@ GameInit PROC USES ebx ecx esi
 	mov skittlesbag.xPOS, 599
 	mov skittlesbag.yPOS, 300
 
+	;setting up skittle gunfire
+	;firing xVEL is 14.
+	mov skittle.xVEL, 14
+	mov skittle.bmp, OFFSET skittlebmp 
+	
+
 	;MARSHAWN LYNCH
 	mov esi,  lynch.bmp
 
