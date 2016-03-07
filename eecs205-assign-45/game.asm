@@ -140,7 +140,7 @@ GameInit PROC USES ebx ecx esi
 	;firing xVEL is 14.
 	mov skittle.xVEL, 14
 	mov skittle.bmp, OFFSET skittlebmp 
-	
+
 
 	;MARSHAWN LYNCH
 	mov esi,  lynch.bmp
@@ -504,8 +504,8 @@ checkfkey:
 	mov ecx, KeyPress
 	cmp ecx, 46h
 	jne afterkeys
-	mov shootingFLAG, 1
-	dec numSkittles
+	mov powerupFLAG, 1
+
 
 
 
@@ -692,7 +692,7 @@ moveskittlesbag:
 
 	mov bl, skittlesbag.dead
 	cmp bl, 1
-	je checkbrady
+	je powerupinitialize
 
 	;now we know that skittlesbag is alive and well
 	mov ebx, skittlesbag.xPOS
@@ -705,6 +705,24 @@ moveskittlesbag:
 	mov ebx, skittlesbagrect.dwRight
 	sub ebx, ecx
 	mov skittlesbagrect.dwRight, ebx
+
+
+powerupinitialize:
+	;dealing with all of the firing motion
+	cmp powerupFLAG, 0
+	je checkbrady
+	cmp shootingFLAG, 1
+	je powerupmove
+
+	;this is the start of a shooting
+	;setting up flags
+	mov shootingFLAG, 1
+	dec numSkittles
+	;now need to initialize rectangle
+
+powerupmove:
+	
+
 
 
 
