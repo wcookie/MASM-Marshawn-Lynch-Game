@@ -36,14 +36,18 @@ include tall_bill.asm
 include small_roger.asm
 include secondmarshawn.asm
 include skittlesbag.asm
+include skittle.asm
 
+
+skittle SPRITE <>
+skittlerect EECS205RECT <>
 skittlesbag SPRITE <>
-skittlesbagrect EECS205RECT<>
+skittlesbagrect EECS205RECT <>
 billy SPRITE <>
 lynch SPRITE <>
 brady SPRITE <>
 roger SPRITE <>
-rogerrect EECS205RECT<>
+rogerrect EECS205RECT <>
 stringer BYTE "Collision"
 lynchrect EECS205RECT <>
 mouseclick BYTE "CLICK"
@@ -718,7 +722,7 @@ checkskittlesbag:
 	jne drawsprites
 	mov lynch.bmp, OFFSET secondmarshawn
 	mov powerupFLAG, 1
-	
+
 
 drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
