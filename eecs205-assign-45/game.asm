@@ -377,11 +377,17 @@ actuallydraw:
 	add ebx, ecx
 	mov billyrect.dwRight, ebx
 
-
+	;checking if brady and beast mode have contacted each other
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET bradyrect
 	cmp eax, 1
-	jne drawsprites
+	jne checkbilly
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
+
+checkbilly:
+	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET billyrect
+	cmp eax, 1
+	jne drawsprites
+	INVOKE DrawStr, OFFSET stringer, 100, 200, 255
 
 drawsprites:
 	INVOKE BasicBlit, billy.bmp, billy.xPOS, billy.yPOS
