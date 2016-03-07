@@ -213,6 +213,54 @@ afterpause:
 	je returner
 	INVOKE BlackStarField
 
+
+	;create a new billy bill
+	;but need to make sure he's dead before re recreate him
+	mov bl, billy.dead
+	cmp bl, 1
+	jne checkspacebar
+	;now we know billy is dead if we're here.  time to reincarnate him if he is randomly lucky
+	;now we are saying 1 in 300 chance but that is something to play with later
+	invoke nrandom, 300
+	cmp eax, 1
+	jne checkspacebar
+	;he's a live
+	mov billy.dead, 0
+	;set him back towards the left
+	mov billy.xPOS, -20
+	mov billy.yPOS, 300
+
+	;now we need to make his rect all good
+	;billy boy
+	mov esi,  billy.bmp
+
+	;getting the top
+	mov ecx, (EECS205BITMAP PTR [esi]).dwHeight
+	sar ecx,1
+	mov ebx, ecx ;copying 1/2 height into ebx as well
+	add ecx, billy.yPOS
+	mov billyrect.dwBottom, ecx
+
+	;getting the bottom
+	mov ecx, billy.yPOS
+	sub ecx, ebx
+	mov billyrect.dwTop, ecx
+
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, billy.xPOS
+	mov billyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, billy.xPOS
+	sub ecx, ebx
+	mov billyrect.dwLeft, ecx
+
+
+
+checkspacebar:
 	;space bar check
 	mov ecx, KeyPress
 	cmp ecx, 20h
@@ -365,6 +413,9 @@ actuallydraw:
 	mov bradyrect.dwRight, ebx
 
 	;doing the same with billy boy
+	mov bl, billy.dead
+	cmp bl, 1
+	je checkbrady
 	mov ebx, billy.xPOS
 	mov ecx, billy.xVEL
 	add ebx, ecx
@@ -377,6 +428,8 @@ actuallydraw:
 	add ebx, ecx
 	mov billyrect.dwRight, ebx
 
+
+checkbrady:
 	;checking if brady and beast mode have contacted each other
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET bradyrect
 	cmp eax, 1
@@ -384,15 +437,21 @@ actuallydraw:
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 
 checkbilly:
+	mov bl, billy.dead
+	cmp bl, 1
+	je drawsprites
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET billyrect
 	cmp eax, 1
 	jne drawsprites
 	INVOKE DrawStr, OFFSET stringer, 100, 200, 255
 
 drawsprites:
-	INVOKE BasicBlit, billy.bmp, billy.xPOS, billy.yPOS
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
+	mov bl, billy.dead
+	cmp bl, 1
+	je resetbrady
+	INVOKE BasicBlit, billy.bmp, billy.xPOS, billy.yPOS
 
 
 resetbrady:
@@ -489,10 +548,7 @@ resetheight:
 	mov bradyrect.dwLeft, ecx
 
 
-	;consider  making lynch jmp up and down faster
-	;mov edx, lynch.ACCEL
-	;dec edx
-	;mov lynch.ACCEL, edx
+
 
 	
 
