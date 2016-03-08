@@ -853,6 +853,7 @@ checkbilly:
 	;change marshawn as test.  later change to GAMEOVER MODE
 	;mov lynch.bmp, OFFSET secondmarshawn
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
+	mov gameoverFLAG, 1
 	;now nothing happens until i implement game over mode.
 
 
