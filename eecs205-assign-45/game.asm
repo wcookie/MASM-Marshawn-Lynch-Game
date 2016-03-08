@@ -96,6 +96,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady2small.bTransparent, 01ch  
 
 
+
 	;set lynch xpos ypos and bmp
 	mov lynch.xPOS, 300  ;lynch position
 	mov lynch.yPOS, 350
@@ -510,8 +511,6 @@ checkfkey:
 	mov skittle.VEL, 25
 
 
-
-
 afterkeys:
 
 	;this deals with lynch jumping
@@ -778,7 +777,7 @@ powerupmove:
 	sub edx, ebx
 	mov skittle.yPOS, edx
 
-		;skittle
+	;skittle rectangle RESET
 	mov esi,  skittle.bmp
 
 	;getting the top
@@ -976,8 +975,14 @@ resetskittlesbag:
 resetbilly:
 	;with bily instead of checking with 0 we check with 599 (FOPR NOW, later we will do when he is shot)
 	cmp billy.xPOS, 599
-	jle returner
+	jle resetskittle
 	mov billy.dead, 1
+
+resetskittle:
+	;so we are not going to reset its position but merely set shooting flag to 0 again and decrease num skittles. 
+	cmp skittle.xPOS, 0
+	jge returner
+	mov shootingFLAG, 0
 
 returner:
 	ret         ;; Do not delete this line!!!
