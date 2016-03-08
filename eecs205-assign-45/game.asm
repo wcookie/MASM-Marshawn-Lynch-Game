@@ -61,6 +61,8 @@ stuff_here BYTE '0'
 powerupFLAG BYTE ?
 numSkittles BYTE ?
 shootingFLAG BYTE ?
+gameoverFLAG BYTE ?
+numLives BYTE ?
 ;; If you need to, you can place global variables here
 
 
@@ -85,6 +87,12 @@ GameInit PROC USES ebx ecx esi
 
 	;setting up pause stuff
 	mov pauseFLAG, 0
+
+	;setting up some gameover stuff
+	mov gameoverFLAG, 0
+
+	;starting with 5 lives, might change later.
+	mov numLives, 5
 
 	;setting up powerup flag   and other powerup stuff
 	mov powerupFLAG, 0
