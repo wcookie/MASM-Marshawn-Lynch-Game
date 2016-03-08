@@ -500,9 +500,13 @@ checkspacebar:
 
 checkfkey:
 
+	;TODO MAKE SURE ITS NOT ALREADY MOVING
+
 	;this is for the f key.  if this is the case, then we are doing the whole firing skittles thing.
 	cmp powerupFLAG, 0
 	;basically if there is a powerup flag then we can shoot things.
+	je afterkeys
+	cmp shootingFLAG, 1
 	je afterkeys
 	mov ecx, KeyPress
 	cmp ecx, 46h
