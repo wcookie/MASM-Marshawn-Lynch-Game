@@ -517,6 +517,7 @@ checkfkey:
 	mov skittle.VEL, 25
 
 
+
 afterkeys:
 
 	;this deals with lynch jumping
@@ -724,7 +725,6 @@ powerupinitialize:
 
 	;this is the start of a shooting
 	;setting up flags
-	dec numSkittles
 	;now need to initialize skittles position
 
 	;using lynchrect dwleft so that we can start the position off of the left of lynchs rectangle
@@ -891,6 +891,18 @@ skittlecollision:
 	;need to turn shooting flag offf
 	mov shootingFLAG, 0
 
+	;we also need to decrement the number of skittles
+
+	;but first check if this was our last 1
+
+	cmp numSkittles, 1
+	je turnoffpower
+	dec numSkittles
+	jmp drawsprites
+
+turnoffpower:
+	mov powerupFLAG, 0 
+
 
 drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
@@ -1036,11 +1048,12 @@ resetskittle:
 	cmp skittle.xPOS, 0
 	jge returner
 	mov shootingFLAG, 0
-	;cmp numSkittles, 1
-	;jne decrementskittles
-	;mov powerupFLAG, 0
+	cmp numSkittles, 1
+	jne decrementskittles
+	mov powerupFLAG, 0
+	jmp returner
 decrementskittles:
-	;dec numSkittles
+	dec numSkittles
 
 returner:
 	ret         ;; Do not delete this line!!!
