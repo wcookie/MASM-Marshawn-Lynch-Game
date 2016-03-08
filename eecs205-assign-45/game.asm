@@ -374,6 +374,11 @@ createskittlesbag:
 	mov bl, roger.dead
 	cmp bl, 1
 	jne createroger
+
+	;we also dont want a skittles bag if lynch is already in powerup mode
+	cmp powerupFLAG, 1
+	je createroger
+	
 	;so now we know there is no fine or powerup in existence and we can try and make a skittlesbag
 
 	; we are making the chances of getting a skittlesbag much higher if billy is alive, just for funsies
