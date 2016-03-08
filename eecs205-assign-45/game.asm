@@ -48,14 +48,15 @@ lynch SPRITE <>
 brady SPRITE <>
 roger SPRITE <>
 rogerrect EECS205RECT <>
-stringer BYTE "Collision"
+stringer BYTE "Collision", 0
 lynchrect EECS205RECT <>
-mouseclick BYTE "CLICK"
+gameover BYTE "GAMEOVER", 0
+
 bradyrect EECS205RECT <>
 spacer BYTE "SPACE"
 billyrect EECS205RECT <>
 pauseFLAG BYTE ?
-pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE"
+pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE", 0
 extraspace BYTE ?
 stuff_here BYTE '0'
 powerupFLAG BYTE ?
@@ -305,6 +306,17 @@ GamePlay PROC USES ebx ecx edx esi
 	
 
 
+gameovercheck:
+	;if gameover then jmp to returner and drawstr gameover
+	cmp gameoverFLAG, 1
+	jne startingpausecheck
+	INVOKE DrawStr, OFFSET gameover, 300, 100, 255
+	jmp returner
+
+
+
+
+startingpausecheck:
 	; if p is pressed unpause it otherwise jump to pause it
 	mov ecx, KeyPress
 	cmp ecx, 50h
