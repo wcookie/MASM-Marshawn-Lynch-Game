@@ -840,6 +840,7 @@ checkbrady:
 	cmp eax, 1
 	jne checkbilly
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
+	
 
 checkbilly:
 
@@ -854,8 +855,7 @@ checkbilly:
 	;mov lynch.bmp, OFFSET secondmarshawn
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 	mov gameoverFLAG, 1
-	;now nothing happens until i implement game over mode.
-
+	;gameoverFLAG is now set because hitting billy has deterimental consequences
 
 checkskittlesbag:
 	;checking if skittlesbag has collided with beast mode.
