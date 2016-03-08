@@ -901,6 +901,7 @@ skittlecollision:
 	jmp drawsprites
 
 turnoffpower:
+	;fairly self explanotry tbh
 	mov powerupFLAG, 0 
 	mov lynch.bmp, OFFSET lynch2small
 
@@ -915,6 +916,7 @@ drawsprites:
 	jne checkbillydraw
 	INVOKE BasicBlit, skittle.bmp, skittle.xPOS, skittle.yPOS
 
+	;these all make sure respective sprites are alive
 checkbillydraw:
 	mov bl, billy.dead
 	cmp bl, 1
