@@ -841,13 +841,37 @@ checkskittlesbag:
 	;gets the funny looking sprite
 	mov bl, skittlesbag.dead
 	cmp bl, 1
-	je drawsprites
+	je skittlecollision
 
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET skittlesbagrect
 	cmp eax, 1
-	jne drawsprites
+	jne skittlecollision
 	mov lynch.bmp, OFFSET secondmarshawn
 	mov powerupFLAG, 1
+
+
+skittlecollision:
+	;if skittle has collided with billy then billy dies
+	;making sure theres not some weird powerup error
+	cmp powerupFLAG, 1
+	jne drawsprites
+	;also need to make sure that it didnt just run into billy, need to be shooting
+	cmp shootingFLAG, 1
+	jne drawsprites
+
+	;then just invoke CheckIntersectRect on skittlerect and billyrect
+
+	INVOKE CheckIntersectRect, OFFSET skittlerect, OFFSET billyrect
+	cmp eax, 1
+	jne drawsprites
+
+	;NOW WE SEE A Collision
+
+	;need to kill billy
+	mov billy.dead, 1
+
+	;need to turn shooting flag offf
+	mov shootingFLAG, 0
 
 
 drawsprites:
