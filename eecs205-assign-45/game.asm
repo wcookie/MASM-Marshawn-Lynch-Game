@@ -706,7 +706,7 @@ moveroger:
 	mov rogerrect.dwRight, ebx
 
 	;we know that if roger is alive then skittlesbag is dead so we can save the computational check of seeing if skittlesbag is alive
-	jmp checkbrady
+	jmp powerupinitialize
 
 moveskittlesbag:
 	
