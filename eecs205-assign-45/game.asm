@@ -854,7 +854,13 @@ drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
+
+	;need to make sure that there is a powerupflag before we draw the skittle
+	cmp powerupFLAG, 1
+	jne checkbillydraw
 	INVOKE BasicBlit, skittle.bmp, skittle.xPOS, skittle.yPOS
+
+checkbillydraw:
 	mov bl, billy.dead
 	cmp bl, 1
 	je checkroger
