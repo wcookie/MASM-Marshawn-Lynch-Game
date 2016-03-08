@@ -116,7 +116,7 @@ GameInit PROC USES ebx ecx esi
 	mov brady.up, 0
 
 	;set up billy bill
-	mov billy.xPOS, -20
+	mov billy.xPOS, -500
 	mov billy.yPOS, 300
 	mov billy.bmp, OFFSET tall_bill
 	mov billy.xVEL, 2
@@ -509,6 +509,7 @@ checkfkey:
 	;making sure there isnt one already going, otherwise would make it keep jumping
 	cmp shootingFLAG, 1
 	je afterkeys
+
 	mov ecx, KeyPress
 	cmp ecx, 46h
 	jne afterkeys
@@ -848,6 +849,7 @@ checkskittlesbag:
 	jne skittlecollision
 	mov lynch.bmp, OFFSET secondmarshawn
 	mov powerupFLAG, 1
+	mov numSkittles, 2
 
 
 skittlecollision:
@@ -869,6 +871,22 @@ skittlecollision:
 
 	;need to kill billy
 	mov billy.dead, 1
+	mov billy.xPOS, -500
+
+	;also need to reset his rect
+	mov esi,  billy.bmp
+	;getting the right
+	mov ecx, (EECS205BITMAP PTR [esi]).dwWidth
+	sar ecx, 1
+	mov ebx, ecx ;copying 1/2 width into ebx for l8r
+	add ecx, billy.xPOS
+	mov billyrect.dwRight, ecx
+
+	;getting the left
+	mov ecx, billy.xPOS
+	sub ecx, ebx
+	mov billyrect.dwLeft, ecx
+
 
 	;need to turn shooting flag offf
 	mov shootingFLAG, 0
@@ -1018,6 +1036,11 @@ resetskittle:
 	cmp skittle.xPOS, 0
 	jge returner
 	mov shootingFLAG, 0
+	;cmp numSkittles, 1
+	;jne decrementskittles
+	;mov powerupFLAG, 0
+decrementskittles:
+	;dec numSkittles
 
 returner:
 	ret         ;; Do not delete this line!!!
