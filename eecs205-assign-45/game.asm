@@ -902,6 +902,7 @@ skittlecollision:
 
 turnoffpower:
 	mov powerupFLAG, 0 
+	mov lynch.bmp, OFFSET lynch2small
 
 
 drawsprites:
@@ -1051,6 +1052,7 @@ resetskittle:
 	cmp numSkittles, 1
 	jne decrementskittles
 	mov powerupFLAG, 0
+	mov lynch.bmp, OFFSET lynch2small
 	jmp returner
 decrementskittles:
 	dec numSkittles
