@@ -841,6 +841,15 @@ checkbrady:
 	jne checkbilly
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 	
+	;want to decrease number of lives, unless there is only 1 life, then set gameoverFLAG
+	cmp numLives, 1
+	jne lowernumlives
+	;if we have 1 life we just say gameoverFLAG
+	mov gameoverFLAG, 1
+
+lowernumlives:
+	;otherwise we decrement num of lives
+	dec numLives
 
 checkbilly:
 
