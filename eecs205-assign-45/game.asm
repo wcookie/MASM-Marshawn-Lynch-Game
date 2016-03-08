@@ -844,14 +844,14 @@ checkbrady:
 	;want to decrease number of lives, unless there is only 1 life, then set gameoverFLAG
 	cmp numLives, 1
 	jne lowernumlives
-	;if we have 1 life we just say gameoverFLAG
+	;we set gameoverFLAG here
 	mov gameoverFLAG, 1
 
 lowernumlives:
 	;otherwise we decrement num of lives
 	dec numLives
 	;also brady is dead now
-	mov brady.dead, 1
+	mov brady.xPOS, -50
 
 checkbilly:
 
