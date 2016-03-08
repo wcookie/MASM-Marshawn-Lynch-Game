@@ -93,8 +93,11 @@ GameInit PROC USES ebx ecx esi
 
 	;get rid of background stuff
 	mov lynch2small.bTransparent, 01ch  
-	mov brady2small.bTransparent, 01ch  
-
+	mov brady2small.bTransparent, 01ch 
+	;doing the same with the others 
+	mov skittlebmp.bTransparent, 00h
+	mov skittlesbagbmp.bTransparent, 00h
+	mov tall_bill.bTransparent, 00h
 
 
 	;set lynch xpos ypos and bmp
