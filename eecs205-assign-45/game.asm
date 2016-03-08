@@ -324,8 +324,8 @@ createbilly:
 	cmp bl, 1
 	jne createskittlesbag
 	;now we know billy is dead if we're here.  time to reincarnate him if he is randomly lucky
-	;now we are saying 1 in 350 chance but that is something to play with later
-	invoke nrandom, 350
+	;now we are saying 1 in 300 chance but that is something to play with later
+	invoke nrandom, 300
 	cmp eax, 1
 	jne createskittlesbag
 	;he's a live
@@ -378,7 +378,7 @@ createskittlesbag:
 	;we also dont want a skittles bag if lynch is already in powerup mode
 	cmp powerupFLAG, 1
 	je createroger
-	
+
 	;so now we know there is no fine or powerup in existence and we can try and make a skittlesbag
 
 	; we are making the chances of getting a skittlesbag much higher if billy is alive, just for funsies
@@ -387,8 +387,8 @@ createskittlesbag:
 	cmp bl, 1
 	je deadrandom
 
-	;so basically if billy is alive make it 1 in 100 chance otherwise make it 1 in 250 chance
-	invoke nrandom, 100
+	;so basically if billy is alive make it 1 in 85 chance otherwise make it 1 in 250 chance
+	invoke nrandom, 85
 	cmp eax, 1
 	je initializeskittlesbag
 	jmp createroger
@@ -438,7 +438,7 @@ createroger:
 	
 	;creating the roger 
 
-	;if roger is lready alive go on
+	;if roger is already alive go on
 	mov bl, roger.dead
 	cmp bl, 1
 	jne checkspacebar 
@@ -448,9 +448,14 @@ createroger:
 	cmp bl, 1
 	jne checkspacebar
 
+	;also if billy is alive to make it a tad easier to get a skittles bag we wont have roger spawn
 
-	;now both are dead.  1 in 450 (??) chance of rog mahal spawning
-	invoke nrandom, 450
+	mov bl, billy.dead
+	cmp bl, 1
+	jne checkspacebar
+
+	;now both are dead.  1 in 500 (??) chance of rog mahal spawning
+	invoke nrandom, 500
 	cmp eax, 1
 	jne checkspacebar
 
