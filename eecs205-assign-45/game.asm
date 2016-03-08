@@ -850,6 +850,8 @@ checkbrady:
 lowernumlives:
 	;otherwise we decrement num of lives
 	dec numLives
+	;also brady is dead now
+	mov brady.dead, 1
 
 checkbilly:
 
