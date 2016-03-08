@@ -506,6 +506,7 @@ checkfkey:
 	cmp powerupFLAG, 0
 	;basically if there is a powerup flag then we can shoot things.
 	je afterkeys
+	;making sure there isnt one already going, otherwise would make it keep jumping
 	cmp shootingFLAG, 1
 	je afterkeys
 	mov ecx, KeyPress
