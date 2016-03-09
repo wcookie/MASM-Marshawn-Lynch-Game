@@ -880,15 +880,26 @@ checkbilly:
 	;basically saying that billy has collided with beast mode
 	mov bl, billy.dead
 	cmp bl, 1
-	je checkskittlesbag
+	je rogercollision
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET billyrect
 	cmp eax, 1
-	jne checkskittlesbag
+	jne rogercollision
 	;change marshawn as test.  later change to GAMEOVER MODE
 	;mov lynch.bmp, OFFSET secondmarshawn
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 	mov gameoverFLAG, 1
 	;gameoverFLAG is now set because hitting billy has deterimental consequences
+
+rogercollision:
+	mov bl, roger.dead
+	cmp bl, 1
+	je checkskittlesbag
+	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET rogerrect
+	cmp eax, 1
+	jne checkskittlesbag
+	;now we just want to lose score, 25000 for now
+	mov ebx, 25000
+	sub score, ebx
 
 checkskittlesbag:
 	;checking if skittlesbag has collided with beast mode.
