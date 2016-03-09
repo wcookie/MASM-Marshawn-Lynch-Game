@@ -54,17 +54,18 @@ lynchrect EECS205RECT <>
 gameover BYTE "GAMEOVER", 0
 
 bradyrect EECS205RECT <>
-spacer BYTE "SPACE"
+spacer BYTE "SPACE", 0
 billyrect EECS205RECT <>
 pauseFLAG BYTE ?
 pausestuff BYTE "THIS GAME IS PAUSED.  PRESS p TO UNPAUSE", 0
-extraspace BYTE ?
 stuff_here BYTE '0'
 powerupFLAG BYTE ?
 numSkittles BYTE ?
 shootingFLAG BYTE ?
 gameoverFLAG BYTE ?
 numLives BYTE ?
+score DWORD ?
+fmtStr BYTE "Score: %d", 0
 ;; If you need to, you can place global variables here
 
 
