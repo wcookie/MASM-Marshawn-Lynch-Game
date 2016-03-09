@@ -861,7 +861,10 @@ checkbrady:
 	jne lowernumlives
 	;we set gameoverFLAG here
 	mov gameoverFLAG, 1
-
+	;also want to decrement the score, dont want to do it twice
+	mov ebx, 25000
+	sub score, ebx
+	jmp checkbilly
 lowernumlives:
 	;otherwise we decrement num of lives
 	dec numLives
@@ -870,7 +873,7 @@ lowernumlives:
 	;also we want to decrement the score by 25,000
 	mov ebx, 25000
 	sub score, ebx
-	
+
 
 checkbilly:
 
