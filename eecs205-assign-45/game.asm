@@ -168,7 +168,7 @@ GameInit PROC USES ebx ecx esi
 
 	;set up roger
 	mov roger.dead, 1
-	mov roger.xVEL, 10
+	mov roger.xVEL, 13
 	mov roger.bmp, OFFSET small_roger
 	mov roger.VEL, 0
 	mov roger.xPOS, 599
@@ -485,8 +485,8 @@ createbilly:
 	cmp powerupFLAG, 1
 	jne nopowerups
 
-	;if none, make velocity 2, otherwise make it 15
-	mov billy.xVEL, 8
+	;if none, make velocity 2, otherwise make it 9
+	mov billy.xVEL, 9
 	jmp otherbillystuff
 
 nopowerups:
