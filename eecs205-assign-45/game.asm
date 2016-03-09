@@ -901,6 +901,15 @@ rogercollision:
 	mov ebx, 25000
 	sub score, ebx
 
+	;we also want roger to die
+	mov roger.dead, 1
+
+	;want to make his rect go away from lynch 
+	mov rogerrect.dwLeft, 0
+	mov rogerrect.dwRight, 1
+	;that is fairly random as it gets reset during the iniitalization of good ol' rog mahal 
+
+
 checkskittlesbag:
 	;checking if skittlesbag has collided with beast mode.
 
