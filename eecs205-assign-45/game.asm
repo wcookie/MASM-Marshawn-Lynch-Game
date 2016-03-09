@@ -881,6 +881,8 @@ checkbrady:
 	;also want to decrement the score, dont want to do it twice
 	mov ebx, 25000
 	sub score, ebx
+	;also want to lower num LIVES 
+	dec numLives
 	jmp checkbilly
 lowernumlives:
 	;otherwise we decrement num of lives
@@ -890,6 +892,7 @@ lowernumlives:
 	;also we want to decrement the score by 25,000
 	mov ebx, 25000
 	sub score, ebx
+
 
 
 checkbilly:
