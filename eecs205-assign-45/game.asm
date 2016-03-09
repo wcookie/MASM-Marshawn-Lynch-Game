@@ -867,6 +867,10 @@ lowernumlives:
 	dec numLives
 	;also brady is dead now
 	mov brady.xPOS, -50
+	;also we want to decrement the score by 25,000
+	mov ebx, 25000
+	sub score, ebx
+	
 
 checkbilly:
 
