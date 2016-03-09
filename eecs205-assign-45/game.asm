@@ -70,7 +70,8 @@ secondOUT BYTE 256 DUP(0)
 fmtStr BYTE "Score: %d", 0
 outStr BYTE 256 DUP(0)
 introFLAG BYTE ?
-
+firstString BYTE "Press the SPACE BAR to go to the next intro message", 0
+introcount DWORD ?
 
 ;; If you need to, you can place global variables here
 
@@ -95,6 +96,9 @@ GameInit PROC USES ebx ecx esi
 
 	;moving intro flag to 1, we want an intro!!
 	mov introFLAG, 1
+
+	;checking which message we are on
+	mov introcount, 0
 	;setting up pause stuff
 	mov pauseFLAG, 0
 
