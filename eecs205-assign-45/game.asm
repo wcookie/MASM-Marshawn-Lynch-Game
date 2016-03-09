@@ -922,9 +922,14 @@ checkskittlesbag:
 	INVOKE CheckIntersectRect, OFFSET lynchrect, OFFSET skittlesbagrect
 	cmp eax, 1
 	jne skittlecollision
+
+	;change lynch bmp
 	mov lynch.bmp, OFFSET secondmarshawn
+	;change flags 
 	mov powerupFLAG, 1
 	mov numSkittles, 2
+
+	;we also want to make skittles go away 
 
 
 skittlecollision:
