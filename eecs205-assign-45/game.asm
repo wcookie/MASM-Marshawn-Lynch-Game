@@ -410,8 +410,8 @@ createskittlesbag:
 	cmp bl, 1
 	je deadrandom
 
-	;so basically if billy is alive make it 1 in 85 chance otherwise make it 1 in 250 chance
-	invoke nrandom, 85
+	;so basically if billy is alive make it 1 in 70 chance otherwise make it 1 in 250 chance
+	invoke nrandom, 70
 	cmp eax, 1
 	je initializeskittlesbag
 	jmp createroger
