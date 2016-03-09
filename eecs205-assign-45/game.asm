@@ -909,6 +909,9 @@ checkbilly:
 	INVOKE DrawStr, OFFSET stringer, 100, 100, 255
 	mov gameoverFLAG, 1
 	;gameoverFLAG is now set because hitting billy has deterimental consequences
+	;also want numlives to show 0
+	mov numLives, 0
+
 
 rogercollision:
 	mov bl, roger.dead
