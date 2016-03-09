@@ -65,8 +65,11 @@ shootingFLAG BYTE ?
 gameoverFLAG BYTE ?
 numLives BYTE ?
 score DWORD ?
+livesStr BYTE "Lives: %d", 0
+secondOUT BYTE 256 DUP(0)
 fmtStr BYTE "Score: %d", 0
 outStr BYTE 256 DUP(0)
+
 ;; If you need to, you can place global variables here
 
 
@@ -1022,7 +1025,20 @@ drawsprites:
 	push OFFSET outStr 
 	call wsprintf 
 	add esp, 12 
-	invoke DrawStr, offset outStr, 300, 25, 255 
+	invoke DrawStr, offset outStr, 250, 25, 255 
+
+	;drawing lives string
+
+	;because numLives is a byte need to movzx
+	movzx ebx, numLives
+
+	rdtsc
+	push ebx 
+	push OFFSET livesStr 
+	push OFFSET secondOUT 
+	call wsprintf 
+	add esp, 12 
+	invoke DrawStr, offset secondOUT, 250, 50, 255 
 
 	;need to make sure that there is a powerupflag before we draw the skittle
 	cmp powerupFLAG, 1
