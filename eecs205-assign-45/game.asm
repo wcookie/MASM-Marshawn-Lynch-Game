@@ -69,6 +69,8 @@ livesStr BYTE "Lives: %d", 0
 secondOUT BYTE 256 DUP(0)
 fmtStr BYTE "Score: %d", 0
 outStr BYTE 256 DUP(0)
+introFLAG BYTE ?
+
 
 ;; If you need to, you can place global variables here
 
@@ -91,7 +93,8 @@ GameInit PROC USES ebx ecx esi
 	rdtsc
 	invoke nseed, eax 
 
-
+	;moving intro flag to 1, we want an intro!!
+	mov introFLAG, 1
 	;setting up pause stuff
 	mov pauseFLAG, 0
 
@@ -100,6 +103,9 @@ GameInit PROC USES ebx ecx esi
 
 	;starting with 5 lives, might change later.
 	mov numLives, 5
+
+	;starting with 0 score
+	mov score, 0
 
 	;setting up powerup flag   and other powerup stuff
 	mov powerupFLAG, 0
