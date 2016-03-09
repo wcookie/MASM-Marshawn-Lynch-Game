@@ -357,6 +357,20 @@ createbilly:
 	mov billy.xPOS, -20
 	mov billy.yPOS, 300
 
+	;check for powerup
+	cmp powerupFLAG, 1
+	jne nopowerups
+
+	;if none, make velocity 2, otherwise make it 15
+	mov billy.xVEL, 15
+	jmp otherbillystuff
+
+nopowerups:
+	mov billy.xVEL, 2
+
+
+otherbillystuff:
+
 	;now we need to make his rect all good
 	;billy boy
 	mov esi,  billy.bmp
