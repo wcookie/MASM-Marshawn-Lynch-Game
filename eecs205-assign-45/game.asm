@@ -939,6 +939,10 @@ skittlecollision:
 	mov billy.dead, 1
 	mov billy.xPOS, -500
 
+	;also want to give 50,000 score bump 
+	mov ebx, 50000
+	add score, ebx
+
 	;also need to reset his rect
 	mov esi,  billy.bmp
 	;getting the right
