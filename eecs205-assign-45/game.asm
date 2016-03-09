@@ -930,6 +930,9 @@ checkskittlesbag:
 	mov numSkittles, 2
 
 	;we also want to make skittles go away 
+	mov skittlesbag.dead, 1
+	mov skittlesbagrect.dwLeft, 0
+	mov skittlesbagrect.dwRight, 1
 
 
 skittlecollision:
