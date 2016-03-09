@@ -71,6 +71,7 @@ fmtStr BYTE "Score: %d", 0
 outStr BYTE 256 DUP(0)
 introFLAG BYTE ?
 firstString BYTE "Press the SPACE BAR to go to the next intro message", 0
+welcomeString BYTE "Welcome to Space Jam 2: Featuring Beast Mode", 0
 introcount DWORD ?
 
 ;; If you need to, you can place global variables here
@@ -320,12 +321,25 @@ GameInit ENDP
 
 GamePlay PROC USES ebx ecx edx esi
 	
+	;check if we are in intro
+	cmp introFLAG, 1
+	jne gameovercheck
+
+	;if we are in intro
+	cmp introcount, 0
+	jne secondintro
+	;if it is the first message.
+	INVOKE DrawStr, OFFSET firstString, 125, 100, 255
+	jmp returner
+
+secondintro:
 
 
 gameovercheck:
 	;if gameover then jmp to returner and drawstr gameover
 	cmp gameoverFLAG, 1
 	jne startingpausecheck
+	INVOKE DrawStr, OFFSET welcomeString, 250, 50, 255
 	INVOKE DrawStr, OFFSET gameover, 250, 75, 255
 	jmp returner
 
