@@ -66,6 +66,7 @@ gameoverFLAG BYTE ?
 numLives BYTE ?
 score DWORD ?
 fmtStr BYTE "Score: %d", 0
+outStr BYTE 256 DUP(0)
 ;; If you need to, you can place global variables here
 
 
@@ -955,8 +956,20 @@ turnoffpower:
 
 drawsprites:
 	;here we draw lynch and brady and then check if we should be drawing billy roger skittles etc
+
+
 	INVOKE BasicBlit, lynch.bmp, lynch.xPOS, lynch.yPOS
 	INVOKE BasicBlit, brady.bmp, brady.xPOS, brady.yPOS
+
+
+	;drawing score string 
+	rdtsc
+	push score 
+	push OFFSET fmtStr 
+	push OFFSET outStr 
+	call wsprintf 
+	add esp, 12 
+	invoke DrawStr, offset outStr, 300, 25, 255 
 
 	;need to make sure that there is a powerupflag before we draw the skittle
 	cmp powerupFLAG, 1
@@ -984,6 +997,8 @@ resetbrady:
 	cmp brady.xPOS, 0
 	jge resetroger
 actuallyreset:
+	mov ebx, 10000d
+	add score, ebx
 	mov brady.jmpState, 0
 	mov brady.xPOS,599
 	mov esi, brady.bmp
