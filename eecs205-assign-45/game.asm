@@ -23,7 +23,8 @@ include \masm32\include\winmm.inc
 includelib \masm32\lib\winmm.lib 	
 include \masm32\include\masm32.inc
 includelib \masm32\lib\masm32.lib 
-
+include \masm32\include\user32.inc 
+includelib \masm32\lib\user32.lib   
 	
 .DATA
 
