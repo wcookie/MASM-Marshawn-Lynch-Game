@@ -362,7 +362,7 @@ createbilly:
 	jne nopowerups
 
 	;if none, make velocity 2, otherwise make it 15
-	mov billy.xVEL, 15
+	mov billy.xVEL, 8
 	jmp otherbillystuff
 
 nopowerups:
