@@ -325,10 +325,20 @@ GamePlay PROC USES ebx ecx edx esi
 	cmp introFLAG, 1
 	jne gameovercheck
 
-	;if we are in intro
+	;figure out if we pressed spacebar
+	;space bar check
+	mov ecx, KeyPress
+	cmp ecx, 20h
+	;if space bar start going through intros
+	jne firstintro
+	;otherwise  increase the inrocount 
+	inc introcount
+
+firstintro:
 	cmp introcount, 0
 	jne secondintro
 	;if it is the first message.
+	INVOKE DrawStr, OFFSET welcomeString, 150, 50, 255
 	INVOKE DrawStr, OFFSET firstString, 125, 100, 255
 	jmp returner
 
@@ -339,7 +349,7 @@ gameovercheck:
 	;if gameover then jmp to returner and drawstr gameover
 	cmp gameoverFLAG, 1
 	jne startingpausecheck
-	INVOKE DrawStr, OFFSET welcomeString, 250, 50, 255
+
 	INVOKE DrawStr, OFFSET gameover, 250, 75, 255
 	jmp returner
 
