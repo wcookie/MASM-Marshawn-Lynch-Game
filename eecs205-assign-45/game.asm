@@ -349,6 +349,8 @@ GamePlay PROC USES ebx ecx edx esi
 	;otherwise  increase the inrocount 
 	inc introcount
 
+;ALL THIS STUFF BELOW IS JUST SIMPLY DISPLAYING INTRO MESSAGES
+
 firstintro:
 	cmp introcount, 0
 	jne secondintro
@@ -358,7 +360,74 @@ firstintro:
 	jmp returner
 
 secondintro:
+	cmp introcount, 1
+	jne thirdintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET secondString, 125, 50, 255
+	INVOKE DrawStr, OFFSET secondStringPartTwo, 125, 75, 255
+	jmp returner
 
+thirdintro:
+	cmp introcount, 2
+	jne fourthintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET thirdString, 125, 50, 255
+	INVOKE DrawStr, OFFSET thirdStringPartTwo, 125, 75, 255
+	jmp returner
+
+
+fourthintro:
+	cmp introcount, 3
+	jne fifthintro
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET fourthString, 125, 50, 255
+	INVOKE DrawStr, OFFSET fourthStringPartTwo, 125, 75, 255
+	jmp returner
+
+fifthintro:
+	cmp introcount, 4
+	jne sixthintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET fifthString, 125, 50, 255
+	jmp returner
+
+sixthintro:
+	cmp introcount, 5
+	jne seventhintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET sixthString, 125, 50, 255
+	INVOKE DrawStr, OFFSET sixthSTringPartTwo, 125, 75, 255
+	jmp returner
+
+seventhintro:
+	cmp introcount, 6
+	jne eigthintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET seventhString, 125, 50, 255
+	jmp returner
+
+eigthintro:
+	cmp introcount, 7
+	jne ninthintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET eighthString, 125, 50, 255
+	INVOKE DrawStr, OFFSET eighthStringPartTwo, 125, 75, 255
+	jmp returner
+
+ninthintro:
+	cmp introcount, 8
+	jne tenthintro 
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET ninthString, 125, 50, 255
+	jmp returner
+
+tenthintro:
+	cmp introcount, 9
+	jne gameovercheck
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET tenthString, 125, 50, 255
+	INVOKE DrawStr, OFFSET tenthStringPartTwo, 125, 75, 255
+	jmp returner
 
 gameovercheck:
 	;if gameover then jmp to returner and drawstr gameover
