@@ -86,6 +86,7 @@ eighthStringPartTwo BYTE "a high score to save the world from the Monstars", 0
 ninthString BYTE "Press Space bar to avoid Tom Brady and Roger", 0
 tenthString BYTE "When you get a skittles powerup, press f", 0
 tenthStringPartTwo BYTE "In order to shoot Billy and get some bonus score",0
+eleventhString BYTE "Also, when Brady is at the top mouse click to throw him down", 0
 welcomeString BYTE "Welcome to Space Jam 2: Featuring Beast Mode", 0
 introcount DWORD ?
 
@@ -423,10 +424,17 @@ ninthintro:
 
 tenthintro:
 	cmp introcount, 9
-	jne endintro
+	jne eleventhintro
 	INVOKE BlackStarField
 	INVOKE DrawStr, OFFSET tenthString, 125, 50, 255
 	INVOKE DrawStr, OFFSET tenthStringPartTwo, 125, 75, 255
+	jmp returner
+
+eleventhintro:
+	cmp introcount, 10
+	jne endintro
+	INVOKE BlackStarField
+	INVOKE DrawStr, OFFSET eleventhString, 115, 50, 255
 	jmp returner
 
 endintro:
