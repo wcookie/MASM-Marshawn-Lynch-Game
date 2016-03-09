@@ -71,6 +71,21 @@ fmtStr BYTE "Score: %d", 0
 outStr BYTE 256 DUP(0)
 introFLAG BYTE ?
 firstString BYTE "Press the SPACE BAR to go to the next intro message", 0
+secondString BYTE "Why did Marshawn Lynch really retire?", 0
+secondStringPartTwo BYTE "Many say due to family reasons, but that was all a lie", 0
+thirdString BYTE "In reality, Beast Mode was recruited by Bugs Bunny and Crew", 0
+thirdStringPartTwo BYTE "In order to help them out with their newest Space Jam",0
+fourthString BYTE "Famous Monstars, Bill Bellicheck, Tom Brady, and Roger Goodell", 0
+fourthStringPartTwo BYTE "Have been taking over the world.", 0
+fifthString BYTE "And its up to you.  BEAST MODE.  To save the day.", 0
+sixthString BYTE "Tom Brady will be coming at you from all angles.", 0
+sixthSTringPartTwo BYTE "Bill Bellicheck is relentless", 0
+seventhString BYTE "And Roger Goodell wants to fine everyone", 0
+eighthString BYTE "Marshawn Lynch has 5 lives and wants to get", 0
+eighthStringPartTwo BYTE "a high score to save the world from the Monstars", 0
+ninthString BYTE "Press Space bar to avoid Tom Brady and Roger", 0
+tenthString BYTE "When you get a skittles powerup, press f", 0
+tenthStringPartTwo BYTE "In order to shoot Billy and get some bonus score",0
 welcomeString BYTE "Welcome to Space Jam 2: Featuring Beast Mode", 0
 introcount DWORD ?
 
