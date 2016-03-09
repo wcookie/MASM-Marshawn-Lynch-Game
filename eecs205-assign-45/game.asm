@@ -423,12 +423,15 @@ ninthintro:
 
 tenthintro:
 	cmp introcount, 9
-	jne gameovercheck
+	jne endintro
 	INVOKE BlackStarField
 	INVOKE DrawStr, OFFSET tenthString, 125, 50, 255
 	INVOKE DrawStr, OFFSET tenthStringPartTwo, 125, 75, 255
 	jmp returner
 
+endintro:
+	mov introFLAG, 0
+	jmp returner
 gameovercheck:
 	;if gameover then jmp to returner and drawstr gameover
 	cmp gameoverFLAG, 1
